@@ -10,6 +10,8 @@ import dotenv from 'dotenv';
 import indexRouter from './routes/index.js';
 import usersRouter from './routes/users.js';
 
+import passportConfig from './config/passport.js';
+
 const {createHttpError:createError} = pkg;
 const __dirname = import.meta.dirname;
 
@@ -23,6 +25,7 @@ app.set('view engine', 'ejs');
 // Auth Setup
 app.use(session({secret:process.env.SECRET,resave:false,saveUninitialized:false}));
 app.use(passport.session());
+passportConfig(passport);
 
 app.use(logger('dev'));
 app.use(express.json());
