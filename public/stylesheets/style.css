@@ -6,3 +6,23 @@ body {
 a {
   color: #00B7FF;
 }
+
+form{
+  display: flex;
+  flex-direction: column ;
+  max-width: fit-content;
+  gap: 1rem;
+
+  .field{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .btn{
+    align-self: flex-end;
+  }
+}
+
