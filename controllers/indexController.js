@@ -2,13 +2,14 @@ import expressAsyncHandler from "express-async-handler";
 import { body, validationResult } from "express-validator";
 import bcrypt from "bcryptjs";
 import db from "../db/queries.js";
+import passport from "passport";
 
 export const indexPageGet = (req, res, next) => {
-  res.render("index", { title: "OnlyMembers" });
+  res.render("index", { user: req.user });
 };
 
 export const signUpGet = (req, res) => {
-  res.render("sign-up-form");
+  res.render("sign-up-form", { errors: null });
 };
 
 export const signUpPost = [
@@ -65,3 +66,5 @@ export const signUpPost = [
 export const logInGet = (req, res) => {
   res.render("log-in");
 };
+
+export const logInPost = passport.authenticate('local',{successRedirect:'/',failureRedirect:'/'});
