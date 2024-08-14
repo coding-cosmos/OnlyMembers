@@ -1,10 +1,14 @@
-import express from 'express';
+import express from "express";
+import {
+  indexPageGet,
+  signUpGet,
+  signUpPost,
+} from "../controllers/indexController.js";
+
 const indexRouter = express.Router();
 
-/* GET home page. */
-indexRouter.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
+indexRouter.get("/", indexPageGet);
+indexRouter.get("/sign-up", signUpGet);
+indexRouter.post("/sign-up", signUpPost);
 
 export default indexRouter;
