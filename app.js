@@ -3,6 +3,9 @@ import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import passport from 'passport';
+import session from 'express-session';
+import dotenv from 'dotenv';
 
 import indexRouter from './routes/index.js';
 import usersRouter from './routes/users.js';
@@ -11,10 +14,15 @@ const {createHttpError:createError} = pkg;
 const __dirname = import.meta.dirname;
 
 const app = express();
+dotenv.config();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+// Auth Setup
+app.use(session({secret:process.env.SECRET,resave:false,saveUninitialized:false}));
+app.use(passport.session());
 
 app.use(logger('dev'));
 app.use(express.json());
