@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS users (
   last_name VARCHAR (255),
   password VARCHAR (255),
   status BOOLEAN,
-  full_name TEXT GENERATED ALWAYS AS (first_name || last_name) STORED
+  full_name TEXT GENERATED ALWAYS AS (first_name || ' '||last_name) STORED
 );
 
 CREATE TABLE IF NOT EXISTS posts (
