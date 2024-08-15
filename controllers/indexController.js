@@ -3,6 +3,10 @@ import { body, validationResult } from "express-validator";
 import bcrypt from "bcryptjs";
 import db from "../db/queries.js";
 import passport from "passport";
+import { isAuth,isMember } from "../middleware/authMiddleware.js";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const indexPageGet = (req, res, next) => {
   res.render("index", { user: req.user });
@@ -67,11 +71,40 @@ export const logInGet = (req, res) => {
   res.render("log-in");
 };
 
-export const logInPost = passport.authenticate('local',{successRedirect:'/',failureRedirect:'/'});
+export const logInPost = passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/",
+});
 
-export const logOut =(req,res)=>{
-  req.logout((err)=>{
-    if(err) return next(err);
-    res.redirect('/');
+export const logOut = (req, res) => {
+  req.logout((err) => {
+    if (err) return next(err);
+    res.redirect("/");
   });
 };
+
+export const joinClubGet = [
+  isAuth, 
+  (req, res) => {
+    res.render('join-club',{error:null});
+  }
+];
+
+export const joinClubPost = [
+  isAuth,
+  async (req,res)=>{
+    if(req.body.passkey == process.env.PASSKEY){
+      db.changeStatus(req.user.id,true);
+      res.redirect('/club');
+    }else{
+      res.render('join-club',{error:"Incorrect passkey"});
+    }
+  }
+];
+
+export const clubGet = [
+  isMember,
+  (req,res)=>{
+    res.render('club');
+  }
+]
