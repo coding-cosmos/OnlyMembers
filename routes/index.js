@@ -8,7 +8,6 @@ import {
   logOut,
   joinClubGet,
   joinClubPost,
-  clubGet,
   createMessageGet,
   createMessagePost,
   messagesGet
@@ -24,7 +23,6 @@ indexRouter.post("/log-in", logInPost);
 indexRouter.get('/log-out',logOut);
 indexRouter.get('/join',joinClubGet);
 indexRouter.post('/join',joinClubPost);
-indexRouter.get('/club',clubGet);
 indexRouter.get('/create-message',createMessageGet);
 indexRouter.post('/create-message',createMessagePost);
 indexRouter.get('/messages',messagesGet);
