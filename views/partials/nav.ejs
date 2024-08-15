@@ -7,8 +7,10 @@
              <% if(!user.status){ %>
                 <li><a href="/join">Join Club</a></li>
              <% } %>
-             <li><a href="/create-message">New Message</a></li>
-            <li><a href="/log-out">Logout</a></li>
+             <div class="controls">
+                 <li><a href="/create-message">New Message</a></li>
+                             <li><a href="/log-out">Logout</a></li>
+             </div>
         </ul>
         
     <% }else{ %>
