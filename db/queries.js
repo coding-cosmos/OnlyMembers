@@ -17,4 +17,8 @@ async function findUserById(id) {
   return rows[0];
 }
 
-export default { insertUser ,findUser,findUserById};
+async function changeStatus(id,status) {
+  await pool.query('UPDATE users SET status = ($2) WHERE id = ($1)',[id,status]);
+}
+
+export default { insertUser ,findUser,findUserById,changeStatus};
