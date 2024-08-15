@@ -13,7 +13,7 @@ export const indexPageGet = (req, res, next) => {
 };
 
 export const signUpGet = (req, res) => {
-  res.render("sign-up-form", { errors: null });
+  res.render("sign-up-form", { errors: null,user:req.user });
 };
 
 export const signUpPost = [
@@ -62,17 +62,17 @@ export const signUpPost = [
       res.redirect("/log-in");
     } else {
       console.log(result.array());
-      res.render("sign-up-form", { errors: result.array() });
+      res.render("sign-up-form", { errors: result.array(),user:req.user });
     }
   }),
 ];
 
 export const logInGet = (req, res) => {
-  res.render("log-in");
+  res.render("log-in",{user:req.user});
 };
 
 export const logInPost = passport.authenticate("local", {
-  successRedirect: "/create-message",
+  successRedirect: "/",
   failureRedirect: "/",
 });
 
@@ -86,7 +86,7 @@ export const logOut = (req, res) => {
 export const joinClubGet = [
   isAuth, 
   (req, res) => {
-    res.render('join-club',{error:null});
+    res.render('join-club',{error:null,user:req.user});
   }
 ];
 
@@ -95,24 +95,19 @@ export const joinClubPost = [
   async (req,res)=>{
     if(req.body.passkey == process.env.PASSKEY){
       db.changeStatus(req.user.id,true);
-      res.redirect('/club');
+      res.redirect('/');
     }else{
-      res.render('join-club',{error:"Incorrect passkey"});
+      res.render('join-club',{error:"Incorrect passkey",user:req.user});
     }
   }
 ];
 
-export const clubGet = [
-  isMember,
-  (req,res)=>{
-    res.render('club');
-  }
-];
+
 
 export const createMessageGet=[
   isAuth,
   (req,res)=>{
-    res.render('new-message',{errors:null});
+    res.render('new-message',{errors:null,user:req.user});
   }
 ];
 
@@ -135,12 +130,12 @@ export const createMessagePost=[
       await db.addPost(req.body.title,req.body.message,req.user.id);
       res.redirect('/messages');
     }else{
-      res.render('new-message',{errors:errors.array()});
+      res.render('new-message',{errors:errors.array(),user:req.user});
     }
   }
 ];
 
 export const messagesGet= expressAsyncHandler(async(req,res)=>{
   const posts = await db.getPosts();
-  res.render('messages',{posts: posts,isMember:req.user?.status});
+  res.render('messages',{posts: posts,isMember:req.user?.status,user:req.user});
 });
