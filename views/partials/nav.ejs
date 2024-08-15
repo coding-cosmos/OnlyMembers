@@ -1,7 +1,21 @@
 <nav>
     <div class="logo">OnlyMembers</div>
-    <ul>
-        <li><a href="/log-in">LogIn</a></li>
-        <li><a href="/sign-up">SignUp</a></li>
-    </ul>
+
+    <% if(user){ %>
+        <ul>
+            <li>Welcome <%= user.full_name %></li>
+             <% if(!user.status){ %>
+                <li><a href="/join">Join Club</a></li>
+             <% } %>
+             <li><a href="/create-message">New Message</a></li>
+            <li><a href="/log-out">Logout</a></li>
+        </ul>
+        
+    <% }else{ %>
+        <ul>
+            <li><a href="/log-in">LogIn</a></li>
+            <li><a href="/sign-up">SignUp</a></li>
+        </ul>
+    <% } %>
+   
 </nav>
