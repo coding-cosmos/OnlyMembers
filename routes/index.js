@@ -8,7 +8,10 @@ import {
   logOut,
   joinClubGet,
   joinClubPost,
-  clubGet
+  clubGet,
+  createMessageGet,
+  createMessagePost,
+  messagesGet
 } from "../controllers/indexController.js";
 
 const indexRouter = express.Router();
@@ -22,5 +25,8 @@ indexRouter.get('/log-out',logOut);
 indexRouter.get('/join',joinClubGet);
 indexRouter.post('/join',joinClubPost);
 indexRouter.get('/club',clubGet);
+indexRouter.get('/create-message',createMessageGet);
+indexRouter.post('/create-message',createMessagePost);
+indexRouter.get('/messages',messagesGet);
 
 export default indexRouter;
