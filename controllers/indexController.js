@@ -9,7 +9,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const indexPageGet = (req, res, next) => {
-  res.render("index", { user: req.user });
+  res.redirect('/messages');
 };
 
 export const signUpGet = (req, res) => {
@@ -72,7 +72,7 @@ export const logInGet = (req, res) => {
 };
 
 export const logInPost = passport.authenticate("local", {
-  successRedirect: "/",
+  successRedirect: "/create-message",
   failureRedirect: "/",
 });
 
@@ -107,4 +107,40 @@ export const clubGet = [
   (req,res)=>{
     res.render('club');
   }
-]
+];
+
+export const createMessageGet=[
+  isAuth,
+  (req,res)=>{
+    res.render('new-message',{errors:null});
+  }
+];
+
+export const createMessagePost=[
+  isAuth,
+  body('title')
+  .trim()
+  .notEmpty()
+  .escape(),
+
+  body('message')
+  .trim()
+  .notEmpty()
+  .escape(),
+
+  async (req,res)=>{
+    const errors = validationResult(req);
+
+    if(errors.isEmpty()){
+      await db.addPost(req.body.title,req.body.message,req.user.id);
+      res.redirect('/messages');
+    }else{
+      res.render('new-message',{errors:errors.array()});
+    }
+  }
+];
+
+export const messagesGet= expressAsyncHandler(async(req,res)=>{
+  const posts = await db.getPosts();
+  res.render('messages',{posts: posts,isMember:req.user?.status});
+});
